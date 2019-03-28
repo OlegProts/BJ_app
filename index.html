@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Card Game 21</title>
+</head>
+<body>
+    <div id="container">
+        <div id="dealer">
+            <h4>Dealer</h4>
+            <h4>Score:</h4>
+            <h4 id="dealerScoreTotal">0</h4>
+            <div id="dealerCards">
+                <ul></ul>        
+            </div>
+        </div>
+        <div id="table">
+            <div id="buttons">
+                <div id="startBtn">START</div>
+                <div id="dealBtn" class="hide">DEAL</div>
+                <div id="hitBtn" class="hide">+ HIT</div>
+                <div id="standBtn" class="hide">STAND</div>
+                <div id="deckTotal">
+                    <img id="genDeck" src="imgs/cards/backs/purple_back_small.png" alt="">
+                    <span id="deckTotalSummary">0</span>
+                </div>
+                
+            </div>
+            <p id="message" class="hide"></p>
+        </div>
+        <div id="player1">
+            <h4>Player</h4>
+            <h4>Score:</h4>
+            <h4 id="playerScoreTotal">0</h4>
+            <div id="playerCards">
+                <ul id="pl1Cards"></ul>
+            </div>    
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

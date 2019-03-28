@@ -1,0 +1,108 @@
+body{
+    font-family: 'Courier New', Courier, monospace; 
+    background-color: #eee;
+    color: rgb(250, 251, 194);
+}
+ul, li {
+    display: inline-block;
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+ul img {
+    padding-top: 15px;
+    /* padding-right: 3px; */
+    width: 80px;
+}
+div img{
+    padding-left: 20px;
+    float: left;
+}
+div span {
+    float: left;
+    padding-top: 10px;
+    padding-left: 15px;
+    color: white;
+    font-size: 1.3em;
+ }
+#container {
+    width: 600px;
+    margin: auto;
+    background-image: url(imgs/blackjack-background.jpg);
+    /* background-color: rgb(255, 147, 47);  */
+    border-radius: 25px;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+h4{
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+#message{
+    float: right;
+    width: 250px;
+    height: 30px;
+    background-color: green;
+    font-size: 1.3em;
+}
+#startBtn, #dealBtn, #hitBtn, #standBtn{
+    /* float: left; */
+    /* display: block; */
+    border: solid 1px #333;
+    border-radius: 25px;
+    background: rgb(122, 5, 5);
+    text-align: center;
+    font-size: 24px;
+    width: 100px;
+    height: 30px;
+    margin: 10px;
+    
+}
+#startBtn:hover, #dealBtn:hover, #hitBtn:hover, #standBtn:hover{
+    background: rgb(255, 147, 47);
+    box-shadow: 3px 3px #333;
+    cursor: pointer;
+    
+}
+.hide{
+    display: none;
+}
+#dealer, #player1 {
+    height: 200px;
+    max-width: 500px;
+    margin: auto;
+}
+#playerBank {
+    width:500px;
+    height: 120px;
+}
+
+#table {
+    height: 200px;
+    max-width: 500px;
+    margin: auto;
+    margin-top:0px;
+}
+#playerCards, #dealerCards {
+    width: 90%;
+    height: 80%;
+    margin: auto;
+    border-radius: 25px; 
+    border: 1px dashed rgb(255, 147, 47);
+}
+
+
+.card {
+    background-color: darkblue;
+    border: 1px solid #333;
+    width: 60px;
+    height: 90px;
+    margin: auto;
+    margin-top: 30px;
+}
+.deckTotal img{
+    /* width: 20px; */
+    height: 10px;
+}
