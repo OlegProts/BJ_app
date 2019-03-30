@@ -25,13 +25,7 @@ var deal1Cards = document.getElementById('dealerCards');
 var plSum = document.getElementById('playerScoreTotal');
 var dlSum = document.getElementById('dealerScoreTotal');
 var mess = document.getElementById('message');
-
-startBtn.addEventListener('click', start);
-dealBtn.addEventListener('click', dealCards);
-hitBtn.addEventListener('click', hit);
-standBtn.addEventListener('click', stand);
-// Bank account
-
+// bank account
 var betRange = document.getElementById('betRange');
 var betAmount = document.getElementById('betAmount');
 var balance = document.getElementById('balance');
@@ -40,34 +34,72 @@ var bankAmount = document.getElementById('bankAmount');
 var dealerVins = document.getElementById('dealerVins');
 var playerVins = document.getElementById('playerVins');
 
+startBtn.addEventListener('click', start);
+dealBtn.addEventListener('click', dealCards);
+hitBtn.addEventListener('click', hit);
+standBtn.addEventListener('click', stand);
+betRange.addEventListener('input', () => betAmount.innerHTML = betRange.value);
+betBtn.addEventListener('click', bet);
+
+function bet () {
+    bankAmount.innerHTML = betAmount.textContent;
+    balance.innerHTML = balance.textContent - betAmount.textContent;
+    betRange.max = balance.textContent;
+    betBtn.disabled = "disable";
+} 
+function clearHands (){
+    // player
+    playerCards = [];
+    pl1Cards.children[0].innerHTML = '';
+    pl1StartCardsNum = 2;
+    // dealer
+    dealerCards = [];
+    deal1Cards.children[0].innerHTML = '';
+    dealerCardsNum = 2;
+}
+// function clearPlayerHand (){
+//     playerCards = [];
+//     pl1Cards.children[0].innerHTML = '';
+//     pl1StartCardsNum = 2;
+// }
+// function clearDealerHand (){
+//     dealerCards = [];
+//     deal1Cards.children[0].innerHTML = '';
+//     dealerCardsNum = 2;
+// }
+
 function dealerIsVinner (){
     dealWins ++;
     dealerVins.innerHTML = dealWins;
     bankAmount.textContent = 0;
-    console.log('Dealer WON the GAME');
+    betBtn.disabled = "";
+    // clearHands();
+    showMessage('DEALER WON! Please, put your next BET');
 }
-
-
 function playerIsVinner (){
     pl1Wins ++;
     playerVins.innerHTML = pl1Wins;
-    // balance.textContent += parseInt(bankAmount.textContent)*2;
-    console.log('Player WON the GAME');
+    var newBalance = parseInt(balance.textContent)+parseInt(bankAmount.textContent)*2;
+    balance.innerHTML = newBalance;
+    bankAmount.textContent = 0;
+    betBtn.disabled = "";
+    // clearHands();    
+    showMessage('YOU WON! Please, put your next BET');
 }
-
-betBtn.addEventListener('click', function () {
-    bankAmount.innerHTML = betAmount.textContent;
-    balance.innerHTML = balance.textContent - betAmount.textContent;
-    betRange.max = balance.textContent;
-} );
-betRange.addEventListener('input', () => betAmount.innerHTML = betRange.value);
+function split (){
+    var newBalance = parseInt(balance.textContent)+parseInt(bankAmount.textContent);
+    balance.innerHTML = newBalance;
+    bankAmount.textContent = 0;
+    betBtn.disabled = "";
+    // clearHands();
+    showMessage('SPLIT! Please, put your next BET');
+}
 
 function start (){
     startBtn.className = 'hide';    
     dealBtn.className = '';    
     hitBtn.className = '';    
     standBtn.className = '';    
-    createNewDeck();
     createNewDeck();
     shuffle();
     dealCards();
@@ -84,11 +116,17 @@ function createNewDeck (){
                 weight = 11;
             var card = { Value: values[i], Suit: suits[j], Weight: weight };
             deck.push(card);
-            // deck.push(values[i] + suits[j]);
         }
     }
-    
-console.log(deck);
+}
+function showMessage (message){
+    mess.className = '';
+    mess.innerText = message;
+}
+function newDeal (){
+    dealBtn.className = '';
+    hitBtn.className = 'hide';
+    standBtn.className = 'hide';
 }
 function shuffle (){
     for (var i=deck.length-1; i>0; i--){
@@ -98,27 +136,18 @@ function shuffle (){
         deck[randomIndex] = temp;
     }
 }
-function clearPlayerHand (){
-    playerCards = [];
-    pl1Cards.children[0].innerHTML = '';
-    pl1StartCardsNum = 2;
-}
-function clearDealerHand (){
-    dealerCards = [];
-    deal1Cards.children[0].innerHTML = '';
-    dealerCardsNum = 2;
-}
+
 function dealCards (){
+    if(bankAmount.textContent == 0){
+        showMessage('Put your next BET');
+    } else{
     dealBtn.className = 'hide';
     hitBtn.className = '';
     standBtn.className = ''; 
-    clearPlayerHand();
-    clearDealerHand();
-    
-    // first card to player and open
+    clearHands();
+
+    // 1-st card to player and open
     playerCards.push(deck[deck.length-1]);
-    // totalScorePlayer1 = playerCards[0].Weight;
-    // plSum.innerText += totalScorePlayer1; 
     li = document.createElement('li');   
     li.innerHTML = '<img src="imgs/cards/'+playerCards[0].Value+playerCards[0].Suit+'.png">';
     pl1Cards.children[0].appendChild(li);
@@ -133,7 +162,7 @@ function dealCards (){
     deck.splice(-1,1);
     deckTotal.innerText = deck.length;
     
-    // Second card to player and open   
+    // 2-nd player card and open   
     playerCards.push(deck[deck.length-1]);
     totalScorePlayer1 = playerCards[0].Weight + playerCards[1].Weight;
     plSum.innerText = totalScorePlayer1;
@@ -154,16 +183,12 @@ function dealCards (){
     deckTotal.innerText = deck.length;
 
     if(totalScorePlayer1==21) {
-        mess.className = '';
-        mess.innerText = 'YOU WON';
         playerIsVinner();
-        dealBtn.className = '';
-        hitBtn.className = 'hide';
-        standBtn.className = 'hide';
+        newDeal ();
         pl1Wins ++; 
     } else {
-        mess.className = '';
-        mess.innerText = 'HIT OR STAND';
+        showMessage('Push HIT or STAND');
+    }
     }
 }
 function hit (){
@@ -179,27 +204,13 @@ function hit (){
     deckTotal.innerText = deck.length;
     pl1StartCardsNum++;
     if (totalScorePlayer1 > 21){
-        mess.className = '';
-        mess.innerText = 'DEALER WON';
         dealerIsVinner ();
-        hitBtn.className = 'hide';
-        standBtn.className = 'hide';
-        dealBtn.className = '';
-        // dealWins ++;
-
-        // dealCards(); 
+        newDeal();
     } else if (totalScorePlayer1 == 21){
-        mess.className = '';
-        mess.innerText = 'YOU WON';
         playerIsVinner();
-        dealBtn.className = '';
-        hitBtn.className = 'hide';
-        standBtn.className = 'hide'; 
-        // pl1Wins ++;
-
+        newDeal();
     } else {
-        mess.className = '';
-        mess.innerText = 'HIT OR STAND';
+        showMessage('Push HIT or STAND');
     }    
     
 }
@@ -211,19 +222,11 @@ function stand (){
     dlSum.innerText = totalScoreDealer;
 while (totalScoreDealer<17){
     if (totalScoreDealer == 21){
-        mess.className = '';
-        mess.innerText = 'DEALER WON';
         dealerIsVinner ();
-        dealBtn.className = '';
-        hitBtn.className = 'hide';
-        standBtn.className = 'hide'; 
+        newDeal();
     } else if (totalScoreDealer > 21){
-        mess.className = '';
-        mess.innerText = 'YOU WON';
         playerIsVinner();
-        dealBtn.className = '';
-        hitBtn.className = 'hide';
-        standBtn.className = 'hide';     
+        newDeal();
     } else {
         dealerCards.push(deck[deck.length-1]);
         totalScoreDealer += dealerCards[dealerCardsNum].Weight;
@@ -237,34 +240,16 @@ while (totalScoreDealer<17){
     }
 }
     if (totalScoreDealer > 21){
-        mess.className = '';
-        mess.innerText = 'YOU WON';
         playerIsVinner();
-        dealBtn.className = '';
-        hitBtn.className = 'hide';
-        standBtn.className = 'hide'; 
+        newDeal();
     } else if (totalScoreDealer > totalScorePlayer1) {
-        mess.className = '';
-        mess.innerText = 'DEALER WON';
         dealerIsVinner ();
-        dealBtn.className = '';
-        hitBtn.className = 'hide';
-        standBtn.className = 'hide'; 
+        newDeal();
     }else if (totalScoreDealer < totalScorePlayer1){
-        mess.className = '';
-        mess.innerText = 'YOU WON';
         playerIsVinner();
-        dealBtn.className = '';
-        hitBtn.className = 'hide';
-        standBtn.className = 'hide'; 
+        newDeal();
     } else {
-        mess.className = '';
-        mess.innerText = 'SPLIT';
-        console.log('SPLIT');
-        dealBtn.className = '';
-        hitBtn.className = 'hide';
-        standBtn.className = 'hide'; 
+        split();
+        newDeal();
     }
 }    
-// add counter for victories
-// add money for player
