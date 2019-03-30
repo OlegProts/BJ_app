@@ -8,7 +8,15 @@
     <title>Card Game 21</title>
 </head>
 <body>
+    
     <div id="container">
+        <header>Black Jack - Card Game</header>
+        <div id="statistic">
+            <p >Dealer Victories Number:</p>
+            <p id="dealerVins">0</p>
+            <p >Player Victories Number:</p>
+            <p id="playerVins">0</p>
+        </div>
         <div id="dealer">
             <h4>Dealer</h4>
             <h4>Score:</h4>
@@ -18,6 +26,10 @@
             </div>
         </div>
         <div id="table">
+            <div>
+                <p>BANK AMOUNT:</p>
+                <p id="bankAmount">0</p>
+            </div>
             <div id="buttons">
                 <div id="startBtn">START</div>
                 <div id="dealBtn" class="hide">DEAL</div>
@@ -37,8 +49,24 @@
             <h4 id="playerScoreTotal">0</h4>
             <div id="playerCards">
                 <ul id="pl1Cards"></ul>
-            </div>    
+            </div>
+              
         </div>
+        <div id="playerBalance">
+            <div>
+                <p>YOUR BET AMOUNT: </p>
+                <p id="betAmount">100</p>
+                <input type="button" id="betBtn" value="BET">
+            </div>
+            <div>
+                <input type="range" name="bet" min="0" max="1000" step="50" value="100" id="betRange">           
+                
+            </div>
+            <div>
+                <p>Bank account:</p>
+                <p id="balance">1000</p>    
+            </div>
+        </div>  
     </div>
     <script src="main.js"></script>
 </body>
